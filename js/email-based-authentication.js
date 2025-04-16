@@ -1,6 +1,4 @@
-import { getAuth, sendSignInLinkToEmail } from "firebase/auth";
-
-import { actionCodeSettings } from "./action-code-settings";
+import { actionCodeSettings } from "./action-code-settings.js";
 
 export function sendEmailLink(email) {
   

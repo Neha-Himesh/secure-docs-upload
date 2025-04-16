@@ -1,5 +1,4 @@
 import { loadComponents } from "./load-components.js";
-import { firebaseConfig } from "./firebase-init.js";
 import { formAuthentication } from "./form-authentication.js";
 import { linkEmailPhonePostAuthentication } from "./link-email-phone-post-authentication.js";
 import { sendPhoneOTP } from "./phone-based-authentication.js";
