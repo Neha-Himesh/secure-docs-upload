@@ -1,5 +1,3 @@
-// import { getAuth, sendSignInLinkToEmail } from "firebase/auth";
-
 export function formAuthentication(){
     // auth_email_link_send.js
     document.getElementById('login-form').addEventListener('submit', function (e) {
