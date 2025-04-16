@@ -1,4 +1,9 @@
 import { loadComponents } from "./load-components.js";
+import { firebaseConfig } from "./firebase-init.js";
+import { formAuthentication } from "./form-authentication.js";
+import { linkEmailPhonePostAuthentication } from "./link-email-phone-post-authentication.js";
+import { sendPhoneOTP } from "./phone-based-authentication.js";
+import { sendEmailLink } from "./email-based-authentication.js";
 
 document.addEventListener("DOMContentLoaded", function () {
 	const includes = [
@@ -15,5 +20,15 @@ document.addEventListener("DOMContentLoaded", function () {
 	// Dynamically load components and then initialize scripts
 	// loadComponents(includes, () => {
 	// 	initializePageScripts();
-    loadComponents(includes);
+    loadComponents(includes, () => {
+		initializePageScripts();
+	});
 });
+
+function initializePageScripts(){
+	// Initialize Firebase
+	firebase.initializeApp(firebaseConfig);
+
+	// Initialize Firebase Analytics (optional)
+	const analytics = firebase.analytics();
+}
