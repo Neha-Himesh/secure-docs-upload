@@ -2,7 +2,7 @@ import { loadComponents } from "./load-components.js";
 
 document.addEventListener("DOMContentLoaded", function () {
 	const includes = [
-		{ id: "login-page", file: "html-components/login.html" },
+		{ id: "login-page", file: "html-components/sign-in.html" },
 		// { id: "home", file: "html-components/hero.html" },
 		// { id: "projects", file: "html-components/projects.html" },
 		// { id: "about", file: "html-components/about.html" },
