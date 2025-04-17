@@ -1,0 +1,8 @@
+{
+  "projects": {
+    "default": "upload-25f01",
+    "secureUpload": "upload-25f01"
+  },
+  "targets": {},
+  "etags": {}
+}
