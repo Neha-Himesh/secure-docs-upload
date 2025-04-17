@@ -5,6 +5,7 @@ export function formAuthentication(){
         // Determine which button was clicked
         const authMethod = e.submitter.value;
         if (authMethod === 'email') {
+            console.log("Inside email authentication");
             const email = document.getElementById('user-email').value;
             // Proceed with email link authentication
             sendEmailLink(email);
