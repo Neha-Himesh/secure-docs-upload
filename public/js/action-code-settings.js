@@ -13,5 +13,5 @@ export const actionCodeSettings = {
       minimumVersion: '12'
     },
     // The domain must be configured in Firebase Hosting and owned by the project.
-    linkDomain: 'upload-25f01.web.app'
+    dynamicLinkDomain: 'upload-25f01.web.app'
 };
