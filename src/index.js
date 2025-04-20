@@ -56,7 +56,8 @@
 // }
 import './styles.css';
 import {initializeApp} from 'firebase/app';
-import { getAuth, connectAuthEmulator, signInWithEmailAndPassword } from 'firebase/auth'
+import { getAuth, connectAuthEmulator, RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth';
+import { textPhoneNumber, textName, verifyButton } from './ui';
 
 const firebaseConfig = {
 	apiKey: "AIzaSyDEbX-gQ6FwJD5oZGnaoiJu9qIaAG2LZ0M",
@@ -72,3 +73,28 @@ const firebaseApp = initializeApp(firebaseConfig);
 
 const auth = getAuth(firebaseApp);
 connectAuthEmulator(auth, "http://localhost:9099");
+auth.languageCode = 'it';
+
+window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
+	'size': 'normal',
+	'callback': (response) => {
+	  // reCAPTCHA solved, allow signInWithPhoneNumber.
+	  // ...
+	  alert('Please enter phone number');
+	},
+	'expired-callback': () => {
+	  // Response expired. Ask user to solve reCAPTCHA again.
+	  // ...
+	  alert('Capthcha expired. Please solve reCaptcha again');
+	}
+});
+
+const phoneNumber = textPhoneNumber ;
+const appVerifier = window.recaptchaVerifier;
+
+signInWithPhoneNumber(auth, phoneNumber, appVerifier)
+	.then((confirmationResult) => {
+		window.confirmationResult = confirmationResult;
+	}).catch((error) => {
+		alert("Something went wrong. Please enter the details again");
+	});
