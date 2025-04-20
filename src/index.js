@@ -89,12 +89,23 @@ window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
 	}
 });
 
-const phoneNumber = textPhoneNumber ;
-const appVerifier = window.recaptchaVerifier;
+const signIn = async () => {
+	const phoneNumber = textPhoneNumber.value;
+	const appVerifier = window.recaptchaVerifier;
+  
+	try {
+	  const confirmationResult = await signInWithPhoneNumber(auth, phoneNumber, appVerifier);
+	  console.log('SMS sent:', confirmationResult);
+	  window.confirmationResult = confirmationResult;
+	} catch (error) {
+	  console.error('Error during sign-in:', error);
+	}
+  };
+  
+verifyButton.addEventListener('click', signIn);
 
-signInWithPhoneNumber(auth, phoneNumber, appVerifier)
-	.then((confirmationResult) => {
-		window.confirmationResult = confirmationResult;
-	}).catch((error) => {
-		alert("Something went wrong. Please enter the details again");
-	});
+	// .then((confirmationResult) => {
+	// 	window.confirmationResult = confirmationResult;
+	// }).catch((error) => {
+	// 	alert("Something went wrong. Please enter the details again");
+	// })
