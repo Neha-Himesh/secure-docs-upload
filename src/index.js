@@ -69,40 +69,66 @@ const firebaseConfig = {
 	measurementId: "G-3Y94K1XCBK"
 };
 
-const firebaseApp = initializeApp(firebaseConfig);
+document.addEventListener('DOMContentLoaded', () =>{
 
-const auth = getAuth(firebaseApp);
-connectAuthEmulator(auth, "http://localhost:9099");
-auth.languageCode = 'it';
+	const firebaseApp = initializeApp(firebaseConfig);
 
-window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
-	'size': 'normal',
-	'callback': (response) => {
-	  // reCAPTCHA solved, allow signInWithPhoneNumber.
-	  // ...
-	  alert('Please enter phone number');
-	},
-	'expired-callback': () => {
-	  // Response expired. Ask user to solve reCAPTCHA again.
-	  // ...
-	  alert('Capthcha expired. Please solve reCaptcha again');
-	}
+	const auth = getAuth(firebaseApp);
+	connectAuthEmulator(auth, "http://localhost:9099");
+	auth.languageCode = 'it';
+
+	window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
+		'size': 'normal',
+		'callback': (response) => {
+		// reCAPTCHA solved, allow signInWithPhoneNumber.
+		// ...
+		alert('Please enter phone number');
+		},
+		'expired-callback': () => {
+		// Response expired. Ask user to solve reCAPTCHA again.
+		// ...
+		alert('Capthcha expired. Please solve reCaptcha again');
+		}
+	});
+
+	window.recaptchaVerifier.render().then(widgetId => {
+		window.recaptchaWidgetId = widgetId;
+	});
+
+	console.log("verifyButton", verifyButton); // Ensure it's not undefined
+
+	console.log("Hello");
+
+	// const signIn = async () => {
+	// 	console.log("Hello");
+	// 	const phoneNumber = textPhoneNumber.value;
+	// 	const appVerifier = window.recaptchaVerifier;
+	
+	// 	try {
+	// 	const confirmationResult = await signInWithPhoneNumber(auth, phoneNumber, appVerifier);
+	// 	console.log('SMS sent:', confirmationResult);
+	// 	window.confirmationResult = confirmationResult;
+	// 	} catch (error) {
+	// 	console.error('Error during sign-in:', error);
+	// 	}
+	// };
+	
+	verifyButton.addEventListener('click',async (e) => {
+		e.preventDefault(); // 🔥 This is crucial
+		console.log("Button clicked");
+	  
+		const phoneNumber = textPhoneNumber.value;
+		const appVerifier = window.recaptchaVerifier;
+	  
+		try {
+		  const confirmationResult = await signInWithPhoneNumber(auth, phoneNumber, appVerifier);
+		  console.log('SMS sent:', confirmationResult);
+		  window.confirmationResult = confirmationResult;
+		} catch (error) {
+		  console.error('Error during sign-in:', error);
+		}
+	});	
 });
-
-const signIn = async () => {
-	const phoneNumber = textPhoneNumber.value;
-	const appVerifier = window.recaptchaVerifier;
-  
-	try {
-	  const confirmationResult = await signInWithPhoneNumber(auth, phoneNumber, appVerifier);
-	  console.log('SMS sent:', confirmationResult);
-	  window.confirmationResult = confirmationResult;
-	} catch (error) {
-	  console.error('Error during sign-in:', error);
-	}
-  };
-  
-verifyButton.addEventListener('click', signIn);
 
 	// .then((confirmationResult) => {
 	// 	window.confirmationResult = confirmationResult;
