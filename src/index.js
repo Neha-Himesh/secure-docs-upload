@@ -76,8 +76,9 @@ document.addEventListener('DOMContentLoaded', () =>{
 	const auth = getAuth(firebaseApp);
 	connectAuthEmulator(auth, "http://localhost:9099");
 	auth.languageCode = 'it';
+	console.log(`Auth is : ${auth}`);
 
-	window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
+	window.recaptchaVerifier = new RecaptchaVerifier( 'recaptcha-container', {
 		'size': 'normal',
 		'callback': (response) => {
 		// reCAPTCHA solved, allow signInWithPhoneNumber.
@@ -89,12 +90,17 @@ document.addEventListener('DOMContentLoaded', () =>{
 		// ...
 		alert('Capthcha expired. Please solve reCaptcha again');
 		}
-	});
+	}, auth);
 
 	window.recaptchaVerifier.render().then(widgetId => {
 		window.recaptchaWidgetId = widgetId;
-	});
+	}, auth);
 
+	
+	if (!verifyButton || !textPhoneNumber) {
+		console.warn('DOM elements not found. Are they loaded yet?');
+		return;
+	}
 	console.log("verifyButton", verifyButton); // Ensure it's not undefined
 
 	console.log("Hello");
