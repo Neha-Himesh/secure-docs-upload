@@ -75,10 +75,14 @@ document.addEventListener('DOMContentLoaded', () =>{
 
 	const auth = getAuth(firebaseApp);
 	connectAuthEmulator(auth, "http://localhost:9099");
+	// Disable app verification for testing
+	auth.appVerificationDisabledForTesting = true;
 	auth.languageCode = 'it';
 	console.log(`Auth is : ${auth}`);
-
-	window.recaptchaVerifier = new RecaptchaVerifier( 'recaptcha-container', {
+	var recaptchaContainer = document.getElementById('recaptcha-container');
+	console.log(`recaptcha container is : ${recaptchaContainer}`);
+	console.log(recaptchaContainer);
+	window.recaptchaVerifier = new RecaptchaVerifier( recaptchaContainer, {
 		'size': 'normal',
 		'callback': (response) => {
 		// reCAPTCHA solved, allow signInWithPhoneNumber.
@@ -90,12 +94,21 @@ document.addEventListener('DOMContentLoaded', () =>{
 		// ...
 		alert('Capthcha expired. Please solve reCaptcha again');
 		}
-	}, auth);
+	});
 
 	window.recaptchaVerifier.render().then(widgetId => {
 		window.recaptchaWidgetId = widgetId;
 	}, auth);
 
+
+	window.recaptchaVerifier.render();
+
+	const recaptchaDiv = document.getElementById("recaptcha-container");
+
+	if (!recaptchaDiv) {
+	  console.error("recaptcha-container div not found in DOM.");
+	  return;
+	}
 	
 	if (!verifyButton || !textPhoneNumber) {
 		console.warn('DOM elements not found. Are they loaded yet?');
